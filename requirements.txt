@@ -10,3 +10,4 @@ aiosmtplib
 email-validator
 python-jose[cryptography]
 python-dotenv
+pydantic-settings
