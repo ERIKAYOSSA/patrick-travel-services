@@ -11,6 +11,7 @@ from app.routes import admin_notification
 from app.routes import notification
 from app.routes import admin_dashboard
 from app.routes import admin_report
+from app.routes import admin
 
 app = FastAPI()
 
@@ -30,6 +31,8 @@ app.include_router(admin_notification.router)
 app.include_router(notification.router)
 app.include_router(admin_dashboard.router)
 app.include_router(admin_report.router)
+app.include_router(admin.router)
+
 
 import os
 from dotenv import load_dotenv
