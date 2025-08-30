@@ -13,6 +13,7 @@ from app.routes import admin_dashboard
 from app.routes import admin_report
 from app.routes import admin
 
+
 app = FastAPI()
 
 app.include_router(status.router)
@@ -33,6 +34,10 @@ app.include_router(admin_dashboard.router)
 app.include_router(admin_report.router)
 app.include_router(admin.router)
 
+
+@app.get("/")
+async def root():
+    return {"message": "Bienvenue sur Patrick Travel Services 🚀"}
 
 import os
 from dotenv import load_dotenv
