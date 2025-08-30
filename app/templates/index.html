@@ -14,31 +14,38 @@
 
   /* Navbar container */
   .custom-navbar {
-    position: fixed;
-    top: 0;
-    width: 100%;
-    background-color: transparent;
-    transition: background-color 0.4s ease, box-shadow 0.4s ease;
-    z-index: 1000;
-    padding: 10px 40px;
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  padding: 10px 40px;
+  height: 130px;
+  background-color: #ffffff;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 1000;
   }
-
-  .custom-navbar.scrolled {
-    background-color: #ffffff;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  .logo-zone {
+  width: 30%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+  height: 100%;
   }
-
+  
   /* Logo styling */
   .logo-img {
-    max-height: 70px;
-    transition: transform 0.3s ease;
-    animation: fadeInUp 1s ease forwards;
-    opacity: 0;
+  max-height: 80px;
+  width: auto;
+  margin-bottom: 0;
+  transition: transform 0.3s ease;
   }
 
   .logo-img:hover {
-    transform: scale(1.05);
-  }
+  transform: scale(1.05);
+}
 
   .brand-text {
     font-size: 1.2rem;
