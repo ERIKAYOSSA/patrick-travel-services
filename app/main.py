@@ -12,7 +12,9 @@ from app.routes import notification
 from app.routes import admin_dashboard
 from app.routes import admin_report
 from app.routes import admin
-
+from fastapi import FastAPI, Request
+from fastapi.responses import HTMLResponse
+from fastapi.templating import Jinja2Templates
 
 app = FastAPI()
 
@@ -48,3 +50,12 @@ load_dotenv()  # charge les variables depuis .env
 db_url = os.getenv("DATABASE_URL")
 email_user = os.getenv("EMAIL_USER")
 email_pass = os.getenv("EMAIL_PASS")
+
+
+
+app = FastAPI()
+templates = Jinja2Templates(directory="templates")
+
+@app.get("/", response_class=HTMLResponse)
+async def index(request: Request):
+    return templates.TemplateResponse("index.html", {"request": request})
