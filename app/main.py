@@ -1,24 +1,30 @@
-from fastapi import FastAPI
-from app.routes import status
-from app.routes import status, user
-from app.routes import assistance_visa, school_admission
-from app.routes import flight, accommodation, message
-from app.routes import admin_partner
-from app.routes import admin_offer
-from app.routes import public_offer
-from app.routes import document, admin_document
-from app.routes import admin_notification
-from app.routes import notification
-from app.routes import admin_dashboard
-from app.routes import admin_report
-from app.routes import admin
 from fastapi import FastAPI, Request
 from fastapi.responses import HTMLResponse
 from fastapi.templating import Jinja2Templates
-from app.services.user_service import get_admin_count
-from app.routes import auth
+from dotenv import load_dotenv
+import os
 
+# Chargement des variables d'environnement
+load_dotenv()
+db_url = os.getenv("DATABASE_URL")
+email_user = os.getenv("EMAIL_USER")
+email_pass = os.getenv("EMAIL_PASS")
+
+# Initialisation de l'app
 app = FastAPI()
+templates = Jinja2Templates(directory="app/templates")
+
+# Route racine
+@app.get("/", response_class=HTMLResponse)
+async def index(request: Request):
+    return templates.TemplateResponse("index.html", {"request": request})
+
+# Inclusion des routeurs
+from app.routes import (
+    status, user, assistance_visa, school_admission, flight, accommodation,
+    message, admin_partner, admin_offer, public_offer, document, admin_document,
+    admin_notification, notification, admin_dashboard, admin_report, admin, auth
+)
 
 app.include_router(status.router)
 app.include_router(user.router)
@@ -37,45 +43,4 @@ app.include_router(notification.router)
 app.include_router(admin_dashboard.router)
 app.include_router(admin_report.router)
 app.include_router(admin.router)
-app.include_router(auth.router)
-
-@app.get("/")
-async def root():
-    return {"message": "Bienvenue sur Patrick Travel Services 🚀"}
-
-import os
-from dotenv import load_dotenv
-
-load_dotenv()  # charge les variables depuis .env
-
-# Exemple d'utilisation
-db_url = os.getenv("DATABASE_URL")
-email_user = os.getenv("EMAIL_USER")
-email_pass = os.getenv("EMAIL_PASS")
-
-
-
-
-app = FastAPI()
-templates = Jinja2Templates(directory="app/templates")
-
-@app.get("/", response_class=HTMLResponse)
-async def index(request: Request):
-    return templates.TemplateResponse("index.html", {"request": request})
-
-from fastapi import APIRouter, Request
-from fastapi.responses import HTMLResponse
-from fastapi.templating import Jinja2Templates
-
-router = APIRouter()
-templates = Jinja2Templates(directory="app/templates")  # ✅ si ton dossier est dans app/
-
-@router.get("/login", response_class=HTMLResponse)
-async def login_page(request: Request):
-    return templates.TemplateResponse("login.html", {"request": request})
-
-@router.get("/register", response_class=HTMLResponse)
-async def register_page(request: Request):
-    admin_count = await get_admin_count()  # à définir dans ton backend
-    show_statut = admin_count < 3
-    return templates.TemplateResponse("register.html", {"request": request, "show_statut": show_statut})
+app.include_router(auth.router)  # ✅ routes /login et /register

@@ -15,3 +15,9 @@ async def register_page(request: Request):
     admin_count = get_admin_count()
     show_statut = admin_count < 3
     return templates.TemplateResponse("register.html", {"request": request, "show_statut": show_statut})
+
+
+
+
+
+
