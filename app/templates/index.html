@@ -6,120 +6,189 @@
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
   <style>
-    body {
-      margin: 0;
-      font-family: 'Segoe UI', sans-serif;
-      background-color: #f4f8fc;
-    }
+  body {
+    margin: 0;
+    font-family: 'Segoe UI', sans-serif;
+    background-color: #f4f8fc;
+  }
 
-    .navbar-brand img {
-        height: 200px; /* ✅ Taille augmentée */
-        margin-right: 15px;
-        transition: transform 0.3s ease;
-        animation: fadeInUp 1s ease forwards;
-        opacity: 0;
-    }
-    .navbar-brand img:hover {
-      transform: scale(1.05); /* ✅ Petit effet au survol */
-    }
-    .navbar-nav .nav-link {
-      animation: fadeInUp 1s ease forwards;
-      opacity: 0;
-    }
-      .navbar-brand {
-    display: flex;
-    align-items: center;
-    }
+  /* Navbar container */
+  .custom-navbar {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    background-color: transparent;
+    transition: background-color 0.4s ease, box-shadow 0.4s ease;
+    z-index: 1000;
+    padding: 10px 40px;
+  }
 
-    .navbar-nav .nav-link:nth-child(1) { animation-delay: 0.4s; }
-    .navbar-nav .nav-link:nth-child(2) { animation-delay: 0.6s; }
-    .navbar-nav .nav-link:nth-child(3) { animation-delay: 0.8s; }
-    .navbar-nav .nav-link:nth-child(4) { animation-delay: 1s; }
+  .custom-navbar.scrolled {
+    background-color: #ffffff;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  }
 
-    @keyframes fadeInUp {
-      0% { opacity: 0; transform: translateY(30px); }
-      100% { opacity: 1; transform: translateY(0); }
-    }
+  /* Logo styling */
+  .logo-img {
+    max-height: 70px;
+    transition: transform 0.3s ease;
+    animation: fadeInUp 1s ease forwards;
+    opacity: 0;
+  }
 
-    .carousel {
-      height: 70vh;
-    }
+  .logo-img:hover {
+    transform: scale(1.05);
+  }
 
-    .carousel-item img {
-      object-fit: cover;
-      height: 100%;
+  .brand-text {
+    font-size: 1.2rem;
+    font-weight: bold;
+    margin-top: 5px;
+    text-align: center;
+  }
+
+  .brand-text .text-success {
+    color: #28a745;
+  }
+
+  /* Nav links */
+  .navbar-nav .nav-link {
+    font-weight: 500;
+    color: #333;
+    transition: color 0.3s ease, transform 0.3s ease;
+    animation: fadeInUp 1s ease forwards;
+    opacity: 0;
+  }
+
+  .navbar-nav .nav-link:hover {
+    color: #007bff;
+    transform: translateY(-2px);
+  }
+
+  .navbar-nav .nav-link:nth-child(1) { animation-delay: 0.4s; }
+  .navbar-nav .nav-link:nth-child(2) { animation-delay: 0.6s; }
+  .navbar-nav .nav-link:nth-child(3) { animation-delay: 0.8s; }
+  .navbar-nav .nav-link:nth-child(4) { animation-delay: 1s; }
+
+  @keyframes fadeInUp {
+    0% { opacity: 0; transform: translateY(30px); }
+    100% { opacity: 1; transform: translateY(0); }
+  }
+
+  /* Responsive adjustments */
+  @media (max-width: 768px) {
+    .navbar-brand {
       width: 100%;
-    }
-
-    .country-bar {
-      background-color: #ffffff;
-      padding: 10px 20px;
-      overflow-x: auto;
-      white-space: nowrap;
-      border-top: 2px solid #dee2e6;
-      border-bottom: 2px solid #dee2e6;
-    }
-
-    .country-bar span {
-      display: inline-block;
-      margin-right: 20px;
-      font-size: 1rem;
-    }
-
-    .country-bar img {
-      height: 20px;
-      margin-right: 5px;
-    }
-
-    .testimonial-section {
-      background-color: #e9ecef;
-      padding: 20px;
-      overflow: hidden;
-      position: relative;
-    }
-
-    .testimonial-text {
-      animation: scrollText 25s linear infinite;
-      white-space: nowrap;
-      font-size: 1.1rem;
-      color: #333;
-    }
-
-    @keyframes scrollText {
-      0% { transform: translateX(100%); }
-      100% { transform: translateX(-100%); }
-    }
-
-    footer {
-      background-color: #343a40;
-      color: white;
-      padding: 20px;
+      justify-content: center;
+      align-items: center;
       text-align: center;
     }
 
-    .card:hover {
-      transform: translateY(-5px);
-      transition: 0.3s ease;
+    .logo-img {
+      max-height: 60px;
     }
 
-    .trust-icons i {
-      font-size: 2rem;
-      color: #0d6efd;
+    .brand-text {
+      font-size: 1rem;
+    }
+
+    .navbar-nav {
+      text-align: center;
+    }
+
+    .navbar-nav .nav-item {
       margin-bottom: 10px;
-      transition: transform 0.3s ease;
     }
+  }
 
-    .trust-icons:hover i {
-      transform: scale(1.2);
-    }
+  /* Carousel */
+  .carousel {
+    height: 70vh;
+  }
 
-    .logo-animated {
-  height: 200px;
-  margin-right: 15px;
-  opacity: 0;
-  transform: scale(0.8);
-  animation: logoFadeIn 1.2s ease-out forwards;
-}
+  .carousel-item img {
+    object-fit: cover;
+    height: 100%;
+    width: 100%;
+  }
+
+  /* Country bar */
+  .country-bar {
+    background-color: #ffffff;
+    padding: 10px 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 20px;
+    border-top: 2px solid #dee2e6;
+    border-bottom: 2px solid #dee2e6;
+  }
+
+  .country-bar span {
+    display: inline-block;
+    font-size: 1rem;
+  }
+
+  .country-bar img {
+    height: 20px;
+    margin-right: 5px;
+  }
+
+  /* Témoignages */
+  .testimonial-section {
+    background-color: #e9ecef;
+    padding: 20px;
+    overflow: hidden;
+    position: relative;
+  }
+
+  .testimonial-text {
+    animation: scrollText 25s linear infinite;
+    white-space: nowrap;
+    font-size: 1.1rem;
+    color: #333;
+  }
+
+  @keyframes scrollText {
+    0% { transform: translateX(100%); }
+    100% { transform: translateX(-100%); }
+  }
+
+  /* Footer */
+  footer {
+    background-color: #343a40;
+    color: white;
+    padding: 20px;
+    text-align: center;
+  }
+
+  /* Cards */
+  .card:hover {
+    transform: translateY(-5px);
+    transition: 0.3s ease;
+  }
+
+  /* Trust icons */
+  .trust-icons i {
+    font-size: 2rem;
+    color: #0d6efd;
+    margin-bottom: 10px;
+    transition: transform 0.3s ease;
+  }
+
+  .trust-icons:hover i {
+    transform: scale(1.2);
+  }
+
+  /* Logo animation */
+  .logo-animated {
+    height: 200px;
+    margin-right: 15px;
+    opacity: 0;
+    transform: scale(0.8);
+    animation: logoFadeIn 1.2s ease-out forwards;
+  }
 
   @keyframes logoFadeIn {
     0% {
@@ -134,29 +203,39 @@
       transform: scale(1) rotate(0deg);
     }
   }
-  </style>
+</style>
 </head>
+<script>
+  window.addEventListener('scroll', function () {
+    const navbar = document.getElementById('mainNavbar');
+    if (window.scrollY > 50) {
+      navbar.classList.add('scrolled');
+    } else {
+      navbar.classList.remove('scrolled');
+    }
+  });
+</script>
 <body>
-
-  <!-- Navbar -->
-  <nav class="navbar navbar-expand-lg navbar-light bg-light px-4">
-    <a class="navbar-brand d-flex align-items-center" href="/">
-      <img src="/static/logo.png" alt="Logo">
-      <span class="fw-bold">Patrick Travel Services</span>
+<!-- Navbar -->
+<nav id="mainNavbar" class="navbar navbar-expand-lg custom-navbar px-4">
+  <div class="container-fluid">
+    <a class="navbar-brand d-flex flex-column align-items-center" href="/">
+      <img src="/static/logo.png" alt="Logo" class="logo-img">
+      <span class="fw-bold brand-text">Patrick <span class="text-success">Travel</span> Services</span>
     </a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu">
       <span class="navbar-toggler-icon"></span>
     </button>
-    <div class="collapse navbar-collapse" id="navMenu">
-      <ul class="navbar-nav ms-auto">
+    <div class="collapse navbar-collapse justify-content-end" id="navMenu">
+      <ul class="navbar-nav">
         <li class="nav-item"><a class="nav-link" href="/">🏠 Accueil</a></li>
         <li class="nav-item"><a class="nav-link" href="#">🧳 Services</a></li>
         <li class="nav-item"><a class="nav-link" href="#">💬 Témoignages</a></li>
         <li class="nav-item"><a class="nav-link" href="/login">🔐 Authentification</a></li>
       </ul>
     </div>
-  </nav>
-
+  </div>
+</nav>
   <!-- Carousel -->
   <div id="carouselImages" class="carousel slide" data-bs-ride="carousel">
     <div class="carousel-inner">
