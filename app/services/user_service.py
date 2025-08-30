@@ -1,7 +1,8 @@
 from sqlalchemy.orm import Session
 from app.models.user import User
-from app.db import SessionLocal
+from app.db import SessionLocal  # Assure-toi que SessionLocal est bien défini dans db.py
 from passlib.hash import bcrypt
+from app.schemas.user_schema import UserCreate
 
 def get_admin_count():
     db: Session = SessionLocal()
@@ -13,18 +14,21 @@ def get_admin_count():
     finally:
         db.close()
 
-def create_user(name, email, password, statut):
+def create_user(user: UserCreate):
     db: Session = SessionLocal()
     try:
-        hashed_password = bcrypt.hash(password)
+        hashed_password = bcrypt.hash(user.password)
         new_user = User(
-            username=name,
-            email=email,
+            username=user.username,
+            email=user.email,
             password=hashed_password,
-            statut=statut,
-            is_admin=(statut == "admin")
+            statut=user.statut,
+            is_admin=(user.statut == "admin")
         )
         db.add(new_user)
         db.commit()
+    except Exception as e:
+        print("Erreur dans create_user:", e)
+        raise
     finally:
         db.close()
