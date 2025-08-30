@@ -13,15 +13,22 @@
     }
 
     .navbar-brand img {
-      height: 40px;
-      margin-right: 10px;
+        height: 80px; /* ✅ Taille augmentée */
+        margin-right: 15px;
+        transition: transform 0.3s ease;
       animation: fadeInUp 1s ease forwards;
       opacity: 0;
     }
-
+    .navbar-brand img:hover {
+      transform: scale(1.05); /* ✅ Petit effet au survol */
+    }
     .navbar-nav .nav-link {
       animation: fadeInUp 1s ease forwards;
       opacity: 0;
+    }
+      .navbar-brand {
+    display: flex;
+    align-items: center;
     }
 
     .navbar-nav .nav-link:nth-child(1) { animation-delay: 0.4s; }
@@ -105,15 +112,37 @@
     .trust-icons:hover i {
       transform: scale(1.2);
     }
+
+    .logo-animated {
+  height: 80px;
+  margin-right: 15px;
+  opacity: 0;
+  transform: scale(0.8);
+  animation: logoFadeIn 1.2s ease-out forwards;
+}
+
+  @keyframes logoFadeIn {
+    0% {
+      opacity: 0;
+      transform: scale(0.8) rotate(-5deg);
+    }
+    60% {
+      opacity: 1;
+      transform: scale(1.05) rotate(2deg);
+    }
+    100% {
+      transform: scale(1) rotate(0deg);
+    }
+  }
   </style>
 </head>
 <body>
 
   <!-- Navbar -->
   <nav class="navbar navbar-expand-lg navbar-light bg-light px-4">
-    <a class="navbar-brand d-flex align-items-center" href="#">
+    <a class="navbar-brand d-flex align-items-center" href="/">
       <img src="/static/logo.png" alt="Logo">
-      <span class="fw-bold">Patrick Travel</span>
+      <span class="fw-bold">Patrick Travel Services</span>
     </a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu">
       <span class="navbar-toggler-icon"></span>
