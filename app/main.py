@@ -15,6 +15,8 @@ from app.routes import admin
 from fastapi import FastAPI, Request
 from fastapi.responses import HTMLResponse
 from fastapi.templating import Jinja2Templates
+from app.database import get_admin_count
+from app.routes import auth
 
 app = FastAPI()
 
@@ -35,7 +37,7 @@ app.include_router(notification.router)
 app.include_router(admin_dashboard.router)
 app.include_router(admin_report.router)
 app.include_router(admin.router)
-
+app.include_router(auth.router)
 
 @app.get("/")
 async def root():
@@ -53,9 +55,27 @@ email_pass = os.getenv("EMAIL_PASS")
 
 
 
+
 app = FastAPI()
 templates = Jinja2Templates(directory="app/templates")
 
 @app.get("/", response_class=HTMLResponse)
 async def index(request: Request):
     return templates.TemplateResponse("index.html", {"request": request})
+
+from fastapi import APIRouter, Request
+from fastapi.responses import HTMLResponse
+from fastapi.templating import Jinja2Templates
+
+router = APIRouter()
+templates = Jinja2Templates(directory="app/templates")  # ✅ si ton dossier est dans app/
+
+@router.get("/login", response_class=HTMLResponse)
+async def login_page(request: Request):
+    return templates.TemplateResponse("login.html", {"request": request})
+
+@router.get("/register", response_class=HTMLResponse)
+async def register_page(request: Request):
+    admin_count = await get_admin_count()  # à définir dans ton backend
+    show_statut = admin_count < 3
+    return templates.TemplateResponse("register.html", {"request": request, "show_statut": show_statut})

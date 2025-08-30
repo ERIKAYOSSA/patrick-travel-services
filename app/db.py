@@ -12,3 +12,7 @@ def get_db():
         yield db
     finally:
         db.close()
+        
+from sqlalchemy.ext.declarative import declarative_base
+
+Base = declarative_base()
