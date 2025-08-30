@@ -8,6 +8,9 @@
 <body class="bg-white">
   <div class="container mt-5">
     <h2 class="mb-4 text-center">📝 Créer un compte</h2>
+      {% if error %}
+        <div class="alert alert-danger text-center">{{ error }}</div>
+      {% endif %}
     <form method="post" action="/register" class="mx-auto" style="max-width: 500px;">
       <div class="mb-3">
         <label for="name" class="form-label">👤 Nom</label>
