@@ -2,17 +2,249 @@
 <html lang="fr">
 <head>
   <meta charset="UTF-8">
-  <title>🏝️ Bienvenue sur Patrick Travel</title>
+  <title>🏝️ Patrick Travel Services</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #f4f8fc;
+    }
+
+    .navbar-brand img {
+      height: 40px;
+      margin-right: 10px;
+      animation: fadeInUp 1s ease forwards;
+      opacity: 0;
+    }
+
+    .navbar-nav .nav-link {
+      animation: fadeInUp 1s ease forwards;
+      opacity: 0;
+    }
+
+    .navbar-nav .nav-link:nth-child(1) { animation-delay: 0.4s; }
+    .navbar-nav .nav-link:nth-child(2) { animation-delay: 0.6s; }
+    .navbar-nav .nav-link:nth-child(3) { animation-delay: 0.8s; }
+    .navbar-nav .nav-link:nth-child(4) { animation-delay: 1s; }
+
+    @keyframes fadeInUp {
+      0% { opacity: 0; transform: translateY(30px); }
+      100% { opacity: 1; transform: translateY(0); }
+    }
+
+    .carousel {
+      height: 70vh;
+    }
+
+    .carousel-item img {
+      object-fit: cover;
+      height: 100%;
+      width: 100%;
+    }
+
+    .country-bar {
+      background-color: #ffffff;
+      padding: 10px 20px;
+      overflow-x: auto;
+      white-space: nowrap;
+      border-top: 2px solid #dee2e6;
+      border-bottom: 2px solid #dee2e6;
+    }
+
+    .country-bar span {
+      display: inline-block;
+      margin-right: 20px;
+      font-size: 1rem;
+    }
+
+    .country-bar img {
+      height: 20px;
+      margin-right: 5px;
+    }
+
+    .testimonial-section {
+      background-color: #e9ecef;
+      padding: 20px;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .testimonial-text {
+      animation: scrollText 25s linear infinite;
+      white-space: nowrap;
+      font-size: 1.1rem;
+      color: #333;
+    }
+
+    @keyframes scrollText {
+      0% { transform: translateX(100%); }
+      100% { transform: translateX(-100%); }
+    }
+
+    footer {
+      background-color: #343a40;
+      color: white;
+      padding: 20px;
+      text-align: center;
+    }
+
+    .card:hover {
+      transform: translateY(-5px);
+      transition: 0.3s ease;
+    }
+
+    .trust-icons i {
+      font-size: 2rem;
+      color: #0d6efd;
+      margin-bottom: 10px;
+      transition: transform 0.3s ease;
+    }
+
+    .trust-icons:hover i {
+      transform: scale(1.2);
+    }
+  </style>
 </head>
-<body class="bg-light">
-  <div class="container text-center mt-5">
-    <h1 class="mb-4">🌍 Patrick Travel Services</h1>
-    <p class="lead">Bienvenue ! Gérez vos voyages en toute simplicité ✈️</p>
-    <div class="mt-4">
-      <a href="/login" class="btn btn-primary btn-lg me-3">🔐 Se connecter</a>
-      <a href="/register" class="btn btn-outline-primary btn-lg">📝 Créer un compte</a>
+<body>
+
+  <!-- Navbar -->
+  <nav class="navbar navbar-expand-lg navbar-light bg-light px-4">
+    <a class="navbar-brand d-flex align-items-center" href="#">
+      <img src="/static/logo.png" alt="Logo">
+      <span class="fw-bold">Patrick Travel</span>
+    </a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navMenu">
+      <ul class="navbar-nav ms-auto">
+        <li class="nav-item"><a class="nav-link" href="#">🏠 Accueil</a></li>
+        <li class="nav-item"><a class="nav-link" href="#">🧳 Services</a></li>
+        <li class="nav-item"><a class="nav-link" href="#">💬 Témoignages</a></li>
+        <li class="nav-item"><a class="nav-link" href="/login">🔐 Authentification</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- Carousel -->
+  <div id="carouselImages" class="carousel slide" data-bs-ride="carousel">
+    <div class="carousel-inner">
+      <div class="carousel-item active">
+        <img src="/static/image1.jpg" class="d-block w-100" alt="Voyage 1">
+      </div>
+      <div class="carousel-item">
+        <img src="/static/image2.jpg" class="d-block w-100" alt="Voyage 2">
+      </div>
+      <div class="carousel-item">
+        <img src="/static/image3.jpg" class="d-block w-100" alt="Voyage 3">
+      </div>
+      <div class="carousel-item">
+        <img src="/static/image4.jpg" class="d-block w-100" alt="Voyage 4">
+      </div>
     </div>
   </div>
-</body>
-</html>
+
+  <!-- Nos Services -->
+  <section class="py-5 bg-white">
+    <div class="container text-center">
+      <h2 class="mb-4 fw-bold text-primary">🌟 Nos Services</h2>
+      <div class="row g-4">
+        <div class="col-md-3">
+          <div class="card h-100 shadow-sm border-0">
+            <div class="card-body">
+              <h5 class="card-title">🛂 Assistance Visa</h5>
+              <p class="card-text">Obtenez votre visa rapidement avec un accompagnement personnalisé.</p>
+              <a href="#" class="btn btn-outline-primary">En savoir plus</a>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="card h-100 shadow-sm border-0">
+            <div class="card-body">
+              <h5 class="card-title">✈️ Réservation de Vol</h5>
+              <p class="card-text">Comparez les meilleures offres et réservez votre billet en toute simplicité.</p>
+              <a href="#" class="btn btn-outline-primary">En savoir plus</a>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="card h-100 shadow-sm border-0">
+            <div class="card-body">
+              <h5 class="card-title">🏨 Hébergement</h5>
+              <p class="card-text">Trouvez un logement adapté à votre budget et à vos préférences.</p>
+              <a href="#" class="btn btn-outline-primary">En savoir plus</a>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="card h-100 shadow-sm border-0">
+            <div class="card-body">
+              <h5 class="card-title">🎓 Admission Scolaire</h5>
+              <p class="card-text">Accompagnement complet pour vos démarches d’inscription à l’étranger.</p>
+              <a href="#" class="btn btn-outline-primary">En savoir plus</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Pourquoi nous choisir -->
+<section class="py-5 bg-light">
+  <div class="container text-center">
+    <h2 class="mb-4 fw-bold text-success">✅ Pourquoi nous choisir</h2>
+    <div class="row g-4">
+      <div class="col-md-3 trust-icons">
+        <i class="fas fa-user-shield"></i>
+        <h5 class="mt-2">Fiabilité</h5>
+        <p>Des services sécurisés et une équipe de confiance.</p>
+      </div>
+      <div class="col-md-3 trust-icons">
+        <i class="fas fa-clock"></i>
+        <h5 class="mt-2">Rapidité</h5>
+        <p>Traitement express de vos demandes sans stress.</p>
+      </div>
+      <div class="col-md-3 trust-icons">
+        <i class="fas fa-globe"></i>
+        <h5 class="mt-2">Couverture mondiale</h5>
+        <p>Partenaires dans plus de 20 pays pour vous accompagner partout.</p>
+      </div>
+      <div class="col-md-3 trust-icons">
+        <i class="fas fa-thumbs-up"></i>
+        <h5 class="mt-2">Satisfaction garantie</h5>
+        <p>Des milliers de clients satisfaits et des témoignages authentiques.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Country Bar -->
+<div class="country-bar">
+  <span><img src="/static/flags/fr.png" alt="France"> France</span>
+  <span><img src="/static/flags/cm.png" alt="Cameroun"> Cameroun</span>
+  <span><img src="/static/flags/us.png" alt="USA"> États-Unis</span>
+  <span><img src="/static/flags/uk.png" alt="UK"> Royaume-Uni</span>
+  <span><img src="/static/flags/ca.png" alt="Canada"> Canada</span>
+  <span><img src="/static/flags/sn.png" alt="Sénégal"> Sénégal</span>
+  <span><img src="/static/flags/ng.png" alt="Nigeria"> Nigeria</span>
+</div>
+
+<!-- Témoignages -->
+<div class="testimonial-section">
+  <div class="testimonial-text">
+    🌟 "Service rapide et efficace, j’ai obtenu mon visa en 3 jours !" — Fatou &nbsp;&nbsp;&nbsp;
+    🌟 "L’équipe est super réactive, je recommande vivement." — Jean &nbsp;&nbsp;&nbsp;
+    🌟 "Grâce à Patrick Travel, mon admission scolaire a été validée sans stress." — Amina &nbsp;&nbsp;&nbsp;
+    🌟 "Un accompagnement personnalisé du début à la fin." — Marc
+  </div>
+</div>
+
+<!-- Footer -->
+<footer>
+  &copy; 2025 Patrick Travel Services — Tous droits réservés | Douala, Cameroun
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js"></script>

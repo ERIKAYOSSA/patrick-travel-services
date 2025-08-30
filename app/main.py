@@ -1,6 +1,7 @@
 from fastapi import FastAPI, Request
 from fastapi.responses import HTMLResponse
 from fastapi.templating import Jinja2Templates
+from fastapi.staticfiles import StaticFiles
 from dotenv import load_dotenv
 import os
 
@@ -44,3 +45,4 @@ app.include_router(admin_dashboard.router)
 app.include_router(admin_report.router)
 app.include_router(admin.router)
 app.include_router(auth.router)  # ✅ routes /login et /register
+app.mount("/static", StaticFiles(directory="app/static"), name="static")
