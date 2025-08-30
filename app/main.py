@@ -15,7 +15,7 @@ from app.routes import admin
 from fastapi import FastAPI, Request
 from fastapi.responses import HTMLResponse
 from fastapi.templating import Jinja2Templates
-from app.database import get_admin_count
+from app.services.user_service import get_admin_count
 from app.routes import auth
 
 app = FastAPI()
