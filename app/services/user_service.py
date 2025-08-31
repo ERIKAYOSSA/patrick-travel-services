@@ -3,6 +3,17 @@ from app.models.user import User
 from app.db import SessionLocal  # Assure-toi que SessionLocal est bien défini dans db.py
 from passlib.hash import bcrypt
 from app.schemas.user_schema import UserCreate
+from app.db import get_db
+from passlib.context import CryptContext
+
+pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
+
+def verify_password(plain_password: str, hashed_password: str) -> bool:
+    return pwd_context.verify(plain_password, hashed_password)
+
+async def get_user_by_email(email: str):
+    db: Session = next(get_db())
+    return db.query(User).filter(User.email == email).first()
 
 def get_admin_count():
     db: Session = SessionLocal()
