@@ -151,14 +151,24 @@
 
   /* Carousel */
   .carousel {
-    height: 70vh;
-  }
+  height: 500px; /* ✅ Hauteur fixe */
+  overflow: hidden;
+}
 
-  .carousel-item img {
-    object-fit: cover;
-    height: 100%;
-    width: 100%;
-  }
+.carousel-inner,
+.carousel-item {
+  height: 100%;
+}
+
+.carousel-item img {
+  height: 100%;
+  width: 100%;
+  object-fit: cover;
+}
+.nos-services {
+  margin-top: 0;
+  padding-top: 20px;
+}
 
   /* Country bar */
   .country-bar {
@@ -301,7 +311,6 @@
       </div>
     </div>
   </div>
-
   <!-- Nos Services -->
   <section class="py-5 bg-white">
     <div class="container text-center">
