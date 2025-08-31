@@ -8,10 +8,15 @@
     body {
       margin: 0;
       padding: 0;
-      background-image: url('/static/bg-login.jpg'); /* ✅ image de fond */
+      background-image: url('/static/bg-login.jpg');
       background-size: cover;
       background-position: center;
       font-family: 'Segoe UI', sans-serif;
+      opacity: 0;
+      transition: opacity 0.8s ease;
+    }
+    body.loaded {
+      opacity: 1;
     }
 
     .login-container {
@@ -20,6 +25,7 @@
       justify-content: center;
       align-items: center;
       backdrop-filter: blur(4px);
+      position: relative;
     }
 
     .login-box {
@@ -30,6 +36,7 @@
       width: 100%;
       max-width: 400px;
       animation: fadeIn 1s ease forwards;
+      z-index: 2;
     }
 
     .login-box h2 {
@@ -93,30 +100,121 @@
       text-decoration: underline;
     }
 
+    .error-message {
+      color: #dc3545;
+      font-size: 0.95rem;
+      text-align: center;
+      margin-bottom: 15px;
+    }
+
+    /* Loader */
+    .loader-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      backdrop-filter: blur(6px);
+      background-color: rgba(255,255,255,0.6);
+      display: none;
+      justify-content: center;
+      align-items: center;
+      z-index: 3;
+    }
+
+    .loader {
+      border: 6px solid #f3f3f3;
+      border-top: 6px solid #007bff;
+      border-radius: 50%;
+      width: 50px;
+      height: 50px;
+      animation: spin 1s linear infinite;
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    /* Message de bienvenue */
+    .welcome-message {
+      position: fixed;
+      top: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      background-color: #28a745;
+      color: white;
+      padding: 10px 20px;
+      border-radius: 8px;
+      font-weight: 600;
+      display: none;
+      z-index: 999;
+      animation: fadeIn 0.5s ease forwards;
+    }
+
     @keyframes fadeIn {
-      0% { opacity: 0; transform: translateY(30px); }
+      0% { opacity: 0; transform: translateY(-20px); }
       100% { opacity: 1; transform: translateY(0); }
     }
   </style>
 </head>
 <body>
+  <div class="welcome-message" id="welcomeMessage">
+  ✅ Bienvenue {{ name | default('chez Patrick Travel Services') }} !
+</div>
+
   <div class="login-container">
+    <div class="loader-overlay" id="loaderOverlay">
+      <div class="loader"></div>
+    </div>
+
     <div class="login-box">
       <img src="/static/logo.png" alt="Logo Patrick Travel">
       <h2>Connexion</h2>
-      <form method="post" action="/login">
+
+      {% if error %}
+        <div class="error-message">{{ error }}</div>
+      {% endif %}
+
+      <form method="post" action="/login" onsubmit="showLoader()">
         <div class="mb-3">
-          <input type="email" name="email" class="form-control" placeholder="Adresse e-mail" required>
+          <input type="email" name="email" class="form-control" placeholder="Adresse e-mail" required value="{{ email | default('') }}">
         </div>
         <div class="mb-3">
           <input type="password" name="password" class="form-control" placeholder="Mot de passe" required>
         </div>
         <button type="submit" class="btn btn-login">🔐 Se connecter</button>
       </form>
+
       <div class="register-prompt">
         Vous n'avez pas encore de compte ? <a href="/register">Créer un compte</a>
       </div>
     </div>
   </div>
+
+  <script>
+  function showLoader() {
+    document.getElementById("loaderOverlay").style.display = "flex";
+  }
+
+  const urlParams = new URLSearchParams(window.location.search);
+  const welcome = urlParams.get("welcome");
+  const name = urlParams.get("name");
+
+  if (welcome === "true" && name) {
+    const msg = document.getElementById("welcomeMessage");
+    msg.textContent = `✅ Bienvenue ${decodeURIComponent(name)} !`;
+    msg.style.display = "block";
+    setTimeout(() => {
+      msg.style.display = "none";
+    }, 4000);
+  }
+</script>
+<script>
+  window.addEventListener("load", () => {
+    document.body.classList.add("loaded");
+  });
+</script>
+
 </body>
 </html>

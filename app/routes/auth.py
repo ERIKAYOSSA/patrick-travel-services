@@ -35,9 +35,9 @@ async def login_user(
 
         # ✅ Redirection selon l’email
         if email in ADMIN_EMAILS:
-            return RedirectResponse(url="/admin/dashboard", status_code=303)
+            return RedirectResponse(url="/admin/dashboard?welcome=true", status_code=303)
         else:
-            return RedirectResponse(url="/dashboard", status_code=303)
+            return RedirectResponse(url=f"/dashboard?welcome=true&name={user.username}", status_code=303)
 
     except Exception as e:
         print("Erreur lors de la connexion:", e)
