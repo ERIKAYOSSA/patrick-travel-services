@@ -1,9 +1,13 @@
 from fastapi import APIRouter, Request, Form
 from fastapi.responses import HTMLResponse, RedirectResponse
 from fastapi.templating import Jinja2Templates
-from app.services.user_service import get_admin_count, get_user_by_email, verify_password
+from app.services.user_service import (
+    get_admin_count,
+    get_user_by_email,
+    verify_password,
+    create_user
+)
 from app.schemas.user_schema import UserCreate
-from app.services.user_service import create_user
 
 router = APIRouter()
 templates = Jinja2Templates(directory="app/templates")
@@ -30,7 +34,8 @@ async def login_user(
         if not user or not verify_password(password, user.hashed_password):
             return templates.TemplateResponse("login.html", {
                 "request": request,
-                "error": "Email ou mot de passe incorrect."
+                "error": "Email ou mot de passe incorrect.",
+                "email": email
             })
 
         # ✅ Redirection selon l’email
@@ -43,7 +48,8 @@ async def login_user(
         print("Erreur lors de la connexion:", e)
         return templates.TemplateResponse("login.html", {
             "request": request,
-            "error": "Une erreur est survenue lors de la connexion."
+            "error": "Une erreur est survenue lors de la connexion.",
+            "email": email
         })
 
 @router.get("/register", response_class=HTMLResponse)
@@ -54,7 +60,10 @@ async def register_page(request: Request):
     except Exception as e:
         print("Erreur dans get_admin_count:", e)
         show_statut = True  # fallback
-    return templates.TemplateResponse("register.html", {"request": request, "show_statut": show_statut})
+    return templates.TemplateResponse("register.html", {
+        "request": request,
+        "show_statut": show_statut
+    })
 
 @router.post("/register")
 async def register_user(
@@ -65,6 +74,7 @@ async def register_user(
     statut: str = Form(...)
 ):
     try:
+        # ✅ Création manuelle de l'objet UserCreate
         user_data = UserCreate(
             username=name,
             email=email,
@@ -73,6 +83,7 @@ async def register_user(
         )
         create_user(user_data)
         return RedirectResponse(url="/login", status_code=303)
+
     except Exception as e:
         print("Erreur lors de l'inscription:", e)
         return templates.TemplateResponse("register.html", {
