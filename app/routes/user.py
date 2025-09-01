@@ -92,24 +92,17 @@ def login_user(
                 "email": email
             })
 
-        # ✅ Création du token JWT
         token = create_access_token({"sub": db_user.email})
-
-        # ✅ Définir la redirection selon le rôle
         redirect_url = "/admin/dashboard" if db_user.is_admin else f"/dashboard?name={db_user.username}"
 
-        # ✅ Créer une réponse de redirection
         response = RedirectResponse(url=redirect_url, status_code=303)
-
-        # ✅ Stocker le token dans un cookie sécurisé
         response.set_cookie(
             key="access_token",
             value=token,
             httponly=True,
             samesite="lax",
-            secure=False  # Mets True si tu es en HTTPS
+            secure=False
         )
-
         return response
 
     except Exception as e:
@@ -119,12 +112,8 @@ def login_user(
             "error": "Erreur interne lors de la connexion.",
             "email": email
         })
-        
-        
-        
-        
-        
-        
-        
-        
-        
+    @router.get("/logout")
+    def logout():
+        response = RedirectResponse(url="/login", status_code=303)
+        response.delete_cookie("access_token")
+        return response
