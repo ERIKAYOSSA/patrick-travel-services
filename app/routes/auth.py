@@ -6,8 +6,7 @@ from app.services.user_service import (
     get_user_by_email,
     verify_password,
     create_user
-)
-from app.schemas.user_schema import UserCreate
+ )
 
 router = APIRouter()
 templates = Jinja2Templates(directory="app/templates")
@@ -74,20 +73,21 @@ async def register_user(
     statut: str = Form(...)
 ):
     try:
-        # ✅ Construction manuelle du modèle avec unpacking
-        user_data = {
-            "username": name,
-            "email": email,
-            "password": password,
-            "statut": statut
-        }
-        create_user(UserCreate(**user_data))
+        # ✅ Construction manuelle des données sans Pydantic
+        create_user(
+            username=name,
+            email=email,
+            password=password,
+            statut=statut
+        )
         return RedirectResponse(url="/login", status_code=303)
 
     except Exception as e:
         print("Erreur lors de l'inscription:", e)
+        admin_count = get_admin_count()
+        show_statut = admin_count < 3
         return templates.TemplateResponse("register.html", {
             "request": request,
-            "show_statut": True,
+            "show_statut": show_statut,
             "error": "Une erreur est survenue lors de la création du compte."
         })
