@@ -6,6 +6,7 @@ from app.database.connection import SessionLocal
 from app.models.user import User
 from app.services.security import hash_password, verify_password
 from app.services.auth import create_access_token
+from fastapi.responses import RedirectResponse
 
 router = APIRouter()
 templates = Jinja2Templates(directory="app/templates")
@@ -91,12 +92,25 @@ def login_user(
                 "email": email
             })
 
-        redirect_url = "/admin/dashboard" if db_user.statut == "admin" else f"/dashboard?name={db_user.username}"
-        return templates.TemplateResponse("login.html", {
-            "request": request,
-            "success": f"Connexion réussie. Bienvenue {db_user.username} !",
-            "redirect_url": redirect_url
-        })
+        # ✅ Création du token JWT
+        token = create_access_token({"sub": db_user.email})
+
+        # ✅ Définir la redirection selon le rôle
+        redirect_url = "/admin/dashboard" if db_user.is_admin else f"/dashboard?name={db_user.username}"
+
+        # ✅ Créer une réponse de redirection
+        response = RedirectResponse(url=redirect_url, status_code=303)
+
+        # ✅ Stocker le token dans un cookie sécurisé
+        response.set_cookie(
+            key="access_token",
+            value=token,
+            httponly=True,
+            samesite="lax",
+            secure=False  # Mets True si tu es en HTTPS
+        )
+
+        return response
 
     except Exception as e:
         print("Erreur lors de la connexion:", e)
@@ -105,7 +119,6 @@ def login_user(
             "error": "Erreur interne lors de la connexion.",
             "email": email
         })
-        
         
         
         
