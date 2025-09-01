@@ -1,4 +1,6 @@
-from fastapi import APIRouter, Depends, HTTPException
+from fastapi import APIRouter, Depends, Request
+from fastapi.responses import HTMLResponse, RedirectResponse
+from fastapi.templating import Jinja2Templates
 from sqlalchemy.orm import Session
 from sqlalchemy import func
 from app.database.connection import SessionLocal
@@ -14,6 +16,7 @@ from app.models.offer import Offer
 from app.models.notification import Notification
 
 router = APIRouter()
+templates = Jinja2Templates(directory="app/templates")
 
 def get_db():
     db = SessionLocal()
@@ -22,10 +25,14 @@ def get_db():
     finally:
         db.close()
 
-@router.get("/admin/dashboard")
-def get_dashboard_stats(db: Session = Depends(get_db), current_user: User = Depends(get_current_user)):
+@router.get("/admin/dashboard", response_class=HTMLResponse)
+def get_dashboard_stats(
+    request: Request,
+    db: Session = Depends(get_db),
+    current_user: User = Depends(get_current_user)
+):
     if not current_user.is_admin:
-        raise HTTPException(status_code=403, detail="Accès réservé à l'administration")
+        return RedirectResponse(url="/login", status_code=303)
 
     stats = {
         "users_total": db.query(func.count(User.id)).scalar(),
@@ -60,4 +67,8 @@ def get_dashboard_stats(db: Session = Depends(get_db), current_user: User = Depe
         }
     }
 
-    return stats
+    return templates.TemplateResponse("dashboard.html", {
+        "request": request,
+        "user": current_user,
+        "stats": stats
+    })
