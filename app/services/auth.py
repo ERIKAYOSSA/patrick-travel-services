@@ -6,7 +6,7 @@ from fastapi.security import OAuth2PasswordBearer
 from app.models.user import User
 from app.database.connection import SessionLocal
 from sqlalchemy.orm import Session
-from app.services.auth import get_db
+from app.db import get_db
 from app.models.user import User
 from app.services.auth import SECRET_KEY, ALGORITHM  # Assure-toi que ces constantes sont bien importées
 from fastapi import Request
