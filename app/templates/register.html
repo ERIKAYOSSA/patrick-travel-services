@@ -139,5 +139,15 @@
       document.body.classList.add("loaded");
     });
   </script>
+  <script>
+  {% if success %}
+    alert("{{ success }}");
+    {% if redirect_url %}
+      window.location.href = "{{ redirect_url }}";
+    {% endif %}
+  {% elif error %}
+    alert("❌ {{ error }}");
+  {% endif %}
+</script>
 </body>
 </html>
