@@ -32,10 +32,10 @@ async def login_user(
         if not user or not verify_password(password, user.hashed_password):
             return templates.TemplateResponse("login.html", {
                 "request": request,
-                "error": "Email ou mot de passe incorrect."
+                "error": "Email ou mot de passe incorrect.",
+                "email": email
             })
 
-        # ✅ Message JS + redirection
         redirect_url = "/admin/dashboard" if email in ADMIN_EMAILS else f"/dashboard?name={user.username}"
         return templates.TemplateResponse("login.html", {
             "request": request,
@@ -47,7 +47,8 @@ async def login_user(
         print("Erreur lors de la connexion:", e)
         return templates.TemplateResponse("login.html", {
             "request": request,
-            "error": "Erreur interne lors de la connexion."
+            "error": "Erreur interne lors de la connexion.",
+            "email": email
         })
 
 @router.get("/register", response_class=HTMLResponse)
@@ -66,21 +67,30 @@ async def register_page(request: Request):
 @router.post("/register", response_class=HTMLResponse)
 async def register_user(
     request: Request,
-    name: str = Form(...),
+    username: str = Form(...),
     email: str = Form(...),
     password: str = Form(...),
     statut: str = Form(...)
 ):
     try:
+        existing_user = await get_user_by_email(email)
+        if existing_user:
+            return templates.TemplateResponse("register.html", {
+                "request": request,
+                "error": "Cet email est déjà utilisé.",
+                "show_statut": True
+            })
+
         create_user(
-            username=name,
+            username=username,
             email=email,
             password=password,
             statut=statut
         )
+
         return templates.TemplateResponse("register.html", {
             "request": request,
-            "success": f"✅ Compte créé avec succès pour {name} !",
+            "success": f"✅ Compte créé avec succès pour {username} !",
             "redirect_url": "/login",
             "show_statut": False
         })
