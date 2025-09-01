@@ -74,14 +74,14 @@ async def register_user(
     statut: str = Form(...)
 ):
     try:
-        # ✅ Création manuelle de l'objet UserCreate
-        user_data = UserCreate(
-            username=name,
-            email=email,
-            password=password,
-            statut=statut
-        )
-        create_user(user_data)
+        # ✅ Construction manuelle du modèle avec unpacking
+        user_data = {
+            "username": name,
+            "email": email,
+            "password": password,
+            "statut": statut
+        }
+        create_user(UserCreate(**user_data))
         return RedirectResponse(url="/login", status_code=303)
 
     except Exception as e:
