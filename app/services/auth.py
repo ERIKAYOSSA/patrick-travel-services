@@ -6,6 +6,10 @@ from fastapi.security import OAuth2PasswordBearer
 from app.models.user import User
 from app.database.connection import SessionLocal
 from sqlalchemy.orm import Session
+from app.services.auth import get_db
+from app.models.user import User
+from app.services.auth import SECRET_KEY, ALGORITHM  # Assure-toi que ces constantes sont bien importées
+from fastapi import Request
 
 SECRET_KEY = "patricktravel_secret_key"
 ALGORITHM = "HS256"
@@ -30,13 +34,21 @@ def get_db():
     finally:
         db.close()
 
+def get_current_user(request: Request, db: Session = Depends(get_db)):
+    token = request.cookies.get("access_token")
+    if not token:
+        raise HTTPException(
+            status_code=401,
+            detail="Non authentifié — token manquant",
+            headers={"WWW-Authenticate": "Bearer"},
+        )
 
-def get_current_user(token: str = Depends(oauth2_scheme), db: Session = Depends(get_db)):
     credentials_exception = HTTPException(
         status_code=401,
         detail="Token invalide ou expiré",
         headers={"WWW-Authenticate": "Bearer"},
     )
+
     try:
         payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
         email: str = payload.get("sub")
@@ -48,4 +60,5 @@ def get_current_user(token: str = Depends(oauth2_scheme), db: Session = Depends(
     user = db.query(User).filter(User.email == email).first()
     if user is None:
         raise credentials_exception
+
     return user

@@ -105,3 +105,13 @@ def login_user(
             "error": "Erreur interne lors de la connexion.",
             "email": email
         })
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
